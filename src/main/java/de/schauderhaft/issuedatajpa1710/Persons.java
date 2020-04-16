@@ -15,12 +15,14 @@ package de.schauderhaft.issuedatajpa1710;/*
  */
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.scheduling.annotation.Async;
+
+import java.util.concurrent.CompletableFuture;
 
 public interface Persons extends CrudRepository<Person, Long> {
 
 	Person findByName(String name);
 
-	@Async
 	Person findAsyncByName(String name);
+
+	CompletableFuture<Person> findCfByName(String name);
 }

@@ -1,9 +1,12 @@
 package de.schauderhaft.issuedatajpa1710;
 
-import io.netty.resolver.RoundRobinInetAddressResolver;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -27,13 +30,13 @@ class IssueDatajpa1710ApplicationTests {
 	}
 
 	@Test
-	void findByNameAsync() {
+	void findCfBy() throws InterruptedException, ExecutionException, TimeoutException {
 
 		Person one = createPerson();
 
 		persons.save(one);
 
-		Person reloaded = persons.findAsyncByName("one");
+		Person reloaded = persons.findCfByName("one").get(1, TimeUnit.SECONDS);
 
 		assertThat(reloaded).isNotNull();
 
